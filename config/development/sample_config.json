@@ -1,0 +1,102 @@
+{
+    "emails": [{
+        "host": "babypages.ru",
+        "username": "robot@babypages.ru",
+        "password": "robot_baby",
+        "ssl": false
+    }, {
+        "host": "babypages.ru",
+        "username": "foo@example.com",
+        "password": "passw0rd",
+        "ssl": false
+    }],
+    "max-once-count": 20,
+    "mongodb": {
+        "connectTimeout": 300000,
+        "host": [
+            "192.168.1.231",
+            "192.168.1.232",
+            "192.168.1.233",
+            "192.168.1.234"
+        ],
+        "journal": true,
+        "replicaSet": "babypages",
+        "writeConcern": 2,
+        "database": "grendizer_dev"
+    },
+    "gunicorn": {
+        "hostname": "0.0.0.0",
+        "port": 9393,
+        "workers": 8,
+        "worker_class": "tornado",
+        "worker_connections": 2000,
+        "timeout": 30,
+        "keepalive": 2
+    },
+    "loggingconfig": {
+        "disable_existing_loggers": false,
+        "formatters": {
+            "simple": {
+                "datefmt": "%y %b %d, %H:%M:%S",
+                "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+            }
+        },
+        "handlers": {
+            "console": {
+                "class": "logging.StreamHandler",
+                "formatter": "simple",
+                "level": "DEBUG",
+                "stream": "ext://sys.stdout"
+            },
+            "sentry": {
+                "class": "raven.handlers.logging.SentryHandler",
+                "dsn": "http://ab22cadfc2bc47a1a50512e71c57b4ac:b0e930cbf76a4226a336b0b7bca534aa@sentry.bbp/8",
+                "level": "WARNING"
+            }
+        },
+        "loggers": {
+            "Grendizer": {
+                "handlers": [
+                    "console",
+                    "sentry"
+                ],
+                "level": "DEBUG",
+                "propagate": false
+            }
+        },
+        "root": {
+            "level": "DEBUG",
+            "handlers": [
+                "console"
+            ]
+        },
+        "version": 1
+    },
+    "Raven": {
+        "public": "ab22cadfc2bc47a1a50512e71c57b4ac",
+        "private": "b0e930cbf76a4226a336b0b7bca534aa",
+        "host": "sentry.bbp/8"
+    },
+    "obs": "192.168.1.214",
+    "activemq": {
+        "stomp": {
+            "host": "localhost",
+            "initialReconnectDelay": 7,
+            "maxReconnectAttempts": 1,
+            "maxReconnectDelay": 8,
+            "port": 61612,
+            "randomize": "false",
+            "startupMaxReconnectAttempts": 1
+        },
+        "http": {
+            "host": "localhost",
+            "port": 8161,
+            "uri": "/api/message/"
+        },
+        "password": "admin",
+        "username": "admin"
+    },
+    "queue": {
+        "BotNet": "/topic/ControlMessage"
+    }
+}

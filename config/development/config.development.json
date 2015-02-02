@@ -1,0 +1,144 @@
+{
+  "emails": [
+  {
+      "host": "localhost",
+      "username": "robot_baby",
+      "password": "root_passw0rd",
+      "ssl": true
+    }
+  ],
+  "max-once-count": 20,
+  "mongodb": {
+    "connectTimeout": 300000,
+    "host": [
+      "192.168.1.231",
+      "192.168.1.232",
+      "192.168.1.233",
+      "192.168.1.234",
+      "192.168.1.3",
+      "192.168.1.2",
+      "192.168.1.46"
+    ],
+    "journal": true,
+    "replicaSet": "babypages",
+    "writeConcern": 2,
+    "database": "grendizer_dev",
+    "max_autoreconnect": 5
+  },
+  "loggingconfig": {
+    "disable_existing_loggers": true,
+    "formatters": {
+      "simple": {
+        "datefmt": "%y %b %d, %H:%M:%S",
+        "format": "[%(asctime)s][%(levelname)s] %(name)s %(filename)s:%(funcName)s:%(lineno)d | %(message)s"
+      }
+    },
+    "handlers": {
+      "console": {
+        "class": "logging.StreamHandler",
+        "formatter": "simple",
+        "level": "DEBUG",
+        "stream": "ext://sys.stdout"
+      },
+      "sentry": {
+        "class": "raven.handlers.logging.SentryHandler",
+        "dsn": "http://ab22cadfc2bc47a1a50512e71c57b4ac:b0e930cbf76a4226a336b0b7bca534aa@sentry.bbp/8",
+        "level": "WARNING"
+      }
+    },
+    "loggers": {
+      "": {
+        "handlers": [
+          "console",
+          "sentry"
+        ],
+        "level": "DEBUG",
+        "propagate": false
+      },
+      "Grendizer": {
+        "level": "DEBUG",
+        "handlers": [
+          "console",
+          "sentry"
+        ],
+        "propagate": false
+      },
+      "celery": {
+        "level": "DEBUG",
+        "handlers": [
+          "sentry"
+        ],
+        "propagate": false
+      }
+    },
+    "version": 1
+  },
+  "Raven": {
+    "public": "ab22cadfc2bc47a1a50512e71c57b4ac",
+    "private": "b0e930cbf76a4226a336b0b7bca534aa",
+    "host": "sentry.bbp/8"
+  },
+  "obs": "192.168.1.214",
+  "activemq": {
+    "stomp": {
+      "host": "192.168.1.214",
+      "initialReconnectDelay": 7,
+      "maxReconnectAttempts": 1,
+      "maxReconnectDelay": 8,
+      "port": 61612,
+      "randomize": "false",
+      "startupMaxReconnectAttempts": 1
+    },
+    "http": {
+      "host": "localhost",
+      "port": 8161,
+      "uri": "/api/message/"
+    },
+    "password": "admin",
+    "username": "admin"
+  },
+  "queue": {
+    "BotNet": "ControlMessage"
+  },
+  "celery": {
+    "CELERY_ENABLE_UTC": true,
+    "CELERY_TIMEZONE": "Europe/Moscow",
+    "BROKER_URL": "redis://192.168.1.214:6379/0",
+    "CELERY_RESULT_BACKEND": "redis://192.168.1.214:6379/0",
+    "BROKER_TRANSPORT_OPTIONS": {
+      "visibility_timeout": 3600,
+      "fanout_prefix": true,
+      "fanout_patterns": true
+    },
+    "CELERY_ACCEPT_CONTENT": [
+      "pickle",
+      "json",
+      "msgpack",
+      "yaml"
+    ],
+    "CELERY_TASK_RESULT_EXPIRES": 300,
+    "CELERY_MESSAGE_COMPRESSION": "gzip",
+    "REDIS_DB": 0,
+    "REDIS_CONNECT_RETRY": true,
+    "CELERY_SEND_TASK_ERROR_EMAILS": true,
+    "CELERY_REDIRECT_STDOUTS": true,
+    "CELERYD_HIJACK_ROOT_LOGGER": false,
+    "CELERYBEAT_SCHEDULE": {
+        "every-30-seconds": {
+            "task": "Grendizer.tasks.importEmail",
+            "schedule": null,
+            "args": []
+        }
+    }
+  },
+  "redis": {
+    "host": "192.168.1.214",
+    "port": 6379,
+    "db": 0
+  },
+  "statsd": {
+    "host": "192.168.1.18",
+    "port": 8125,
+    "prefix": "Grendizer"
+  }
+}
